@@ -23,9 +23,9 @@ export default function Home() {
       />
       {/* Hero Section */}
       <Hero
-        title="Property Management Made Transparent"
+        title="Transform Property Management with Complete Transparency"
         subtitle="Coming Soon"
-        description="A monitoring system that brings managers, service providers, and tenants together around shared, time-stamped task logs for complete transparency and accountability."
+        description="A revolutionary monitoring system that brings managers, service providers, and tenants together around shared, time-stamped task logs for complete transparency and accountability."
         primaryAction={{
           label: "Get Early Access",
           href: "#signup"
@@ -150,8 +150,8 @@ export default function Home() {
         <div className="max-w-2xl mx-auto">
           <Card className="border-2">
             <CardContent className="p-8 text-center">
-              <Badge variant="default" className="mb-4">
-                Early Access
+              <Badge variant="default" className="mb-4 bg-gradient-to-r from-blue-600 to-purple-600">
+                🚀 Early Access
               </Badge>
               <h2 className="text-2xl md:text-3xl font-bold mb-4">
                 Be the First to Know
