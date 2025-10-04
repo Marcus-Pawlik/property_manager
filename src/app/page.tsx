@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Mail } from "lucide-react";
+import { Mail, Building2, ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
@@ -27,12 +27,12 @@ export default function Home() {
         subtitle="Coming Soon"
         description="A revolutionary monitoring system that brings managers, service providers, and tenants together around shared, time-stamped task logs for complete transparency and accountability."
         primaryAction={{
-          label: "Get Early Access",
-          href: "#signup"
+          label: "View Dashboard Demo",
+          href: "/dashboard"
         }}
         secondaryAction={{
-          label: "Learn More",
-          href: "#solution"
+          label: "Get Early Access",
+          href: "#signup"
         }}
       />
 
@@ -139,6 +139,39 @@ export default function Home() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Dashboard Demo Section */}
+      <section id="demo" className="py-20 px-4 bg-gray-50 relative">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4">
+              Live Demo
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              See It In Action
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+              Experience how property managers monitor maintenance across their entire portfolio with complete transparency and real-time updates.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" asChild>
+                <a href="/dashboard">
+                  <Building2 className="size-4 mr-2" />
+                  View Dashboard Demo
+                </a>
+              </Button>
+              <Button variant="outline" size="lg" asChild>
+                <a href="#solution">
+                  Learn More
+                  <ArrowRight className="size-4 ml-2" />
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
