@@ -45,6 +45,10 @@ yarn-error.log*
 secrets/
 .secrets/
 
+# Node.js binaries and distributions
+node-v*/
+node-*/
+
 # vercel
 .vercel
 
