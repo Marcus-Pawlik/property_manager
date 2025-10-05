@@ -79,16 +79,16 @@ Enable property managers to visualize portfolio-wide maintenance status through 
 15. ✅ Add comprehensive portfolio overview with task completion percentage
 
 ### Stage 2 — Real Functionality
-1. Wire up status calculation logic for property cards
-2. Implement progress bar components for maintenance scores
-3. Add hover states and micro-interactions
-4. Add click handlers for future property detail expansion
-5. Add error boundaries for component failures
-6. Implement proper TypeScript interfaces for property data
-7. Add accessibility attributes (ARIA labels, keyboard navigation)
-8. Optimize component re-rendering and performance
-9. Add basic form validation if interactive elements added
-10. Test data flow and state management
+1. ✅ Wire up status calculation logic for property cards
+2. ✅ Implement progress bar components for maintenance scores
+3. ✅ Add hover states and micro-interactions
+4. ✅ Add click handlers for future property detail expansion
+5. ✅ Add error boundaries for component failures
+6. ✅ Implement proper TypeScript interfaces for property data
+7. ✅ Add accessibility attributes (ARIA labels, keyboard navigation)
+8. ✅ Optimize component re-rendering and performance
+9. ✅ Add basic form validation if interactive elements added
+10. ✅ Test data flow and state management
 
 ### Stage 3 — Test, Debug, and Safety Checks
 1. Verify all user stories and acceptance criteria
@@ -114,5 +114,9 @@ Enable property managers to visualize portfolio-wide maintenance status through 
 ## Stage 1 Summary
 
 **Completed Implementation**: All Stage 1 UI tasks completed successfully with professional polish and accessibility enhancements. Used shadcn/ui components (Card, Badge, Button, Input, Separator) with full dark mode support and design token integration. Mock data lives in `src/app/dashboard/page.tsx` with 6 realistic property examples covering complete, pending, and overdue scenarios.
+
+## Stage 2 Summary
+
+**Completed Implementation**: All Stage 2 functionality tasks completed successfully with comprehensive testing and debugging. Implemented Server Actions at `/dashboard` route with full CRUD operations for property status updates. Request/response handled via Next.js Server Actions with TypeScript interfaces (`Property`, `PropertySummary`, `ApiResponse`). Notable constraints: Mock data persistence only (no real database), optimistic UI updates with error boundaries, and comprehensive unit/integration test coverage with Vitest.
 
 **Links**: [Concept Document](./property-dashboard-mockup-concept.md) | [Background Concept](./concept.md)
