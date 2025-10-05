@@ -2,8 +2,24 @@
 
 import { Property, PropertySummary, PropertyStatus, ApiResponse } from '@/types/property';
 import { calculatePropertyStatus, calculateMaintenanceScore } from '@/lib/property-helpers';
+import { 
+  UpdatePropertyStatusInputSchema, 
+  GetPropertyByIdInputSchema,
+  PropertySchema,
+  ValidationError 
+} from '@/lib/validation';
+import { 
+  validateInput, 
+  checkRateLimit, 
+  logSecurityEvent, 
+  sanitizeText,
+  validatePropertyId,
+  validatePropertyStatus 
+} from '@/lib/security';
+import { NextRequest } from 'next/server';
 
 // Mock data - in a real app, this would come from a database
+// All data is pre-sanitized and validated
 const mockProperties: Property[] = [
   {
     id: "oak-street",
@@ -108,7 +124,7 @@ const mockProperties: Property[] = [
  */
 export async function getProperties(): Promise<ApiResponse<Property[]>> {
   try {
-    console.log('[Server Action] getProperties: Fetching all properties');
+    logSecurityEvent('properties_fetch_attempt', {}, 'info');
     
     // Simulate some processing time
     await new Promise(resolve => setTimeout(resolve, 100));
@@ -120,14 +136,18 @@ export async function getProperties(): Promise<ApiResponse<Property[]>> {
       maintenanceScore: calculateMaintenanceScore(property)
     }));
     
-    console.log(`[Server Action] getProperties: Returning ${propertiesWithCalculatedStatus.length} properties`);
+    logSecurityEvent('properties_fetched', { 
+      count: propertiesWithCalculatedStatus.length 
+    }, 'info');
     
     return {
       data: propertiesWithCalculatedStatus,
       success: true
     };
   } catch (error) {
-    console.error('[Server Action] getProperties error:', error);
+    logSecurityEvent('properties_fetch_error', { 
+      error: error instanceof Error ? error.message : 'Unknown error' 
+    }, 'error');
     return {
       data: [],
       success: false,
@@ -137,17 +157,31 @@ export async function getProperties(): Promise<ApiResponse<Property[]>> {
 }
 
 /**
- * Get a single property by ID
+ * Get a single property by ID with security validation
  */
 export async function getPropertyById(id: string): Promise<ApiResponse<Property | null>> {
   try {
-    console.log(`[Server Action] getPropertyById: Fetching property ${id}`);
+    // Validate input
+    const validation = validatePropertyId(id);
+    if (!validation.valid) {
+      logSecurityEvent('invalid_property_id', { id, error: validation.error }, 'warn');
+      return {
+        data: null,
+        success: false,
+        error: 'Invalid property ID'
+      };
+    }
+
+    const sanitizedId = validation.sanitized!;
+    logSecurityEvent('property_lookup', { id: sanitizedId }, 'info');
     
     await new Promise(resolve => setTimeout(resolve, 50));
     
-    const property = mockProperties.find(p => p.id === id);
+    // Use parameterized lookup (sanitized ID)
+    const property = mockProperties.find(p => p.id === sanitizedId);
     
     if (!property) {
+      logSecurityEvent('property_not_found', { id: sanitizedId }, 'info');
       return {
         data: null,
         success: false,
@@ -161,14 +195,17 @@ export async function getPropertyById(id: string): Promise<ApiResponse<Property 
       maintenanceScore: calculateMaintenanceScore(property)
     };
     
-    console.log(`[Server Action] getPropertyById: Found property ${property.name}`);
+    logSecurityEvent('property_found', { id: sanitizedId, name: property.name }, 'info');
     
     return {
       data: propertyWithCalculatedData,
       success: true
     };
   } catch (error) {
-    console.error(`[Server Action] getPropertyById error for ${id}:`, error);
+    logSecurityEvent('property_lookup_error', { 
+      id, 
+      error: error instanceof Error ? error.message : 'Unknown error' 
+    }, 'error');
     return {
       data: null,
       success: false,
@@ -178,17 +215,62 @@ export async function getPropertyById(id: string): Promise<ApiResponse<Property 
 }
 
 /**
- * Update property status
+ * Update property status with comprehensive security validation
  */
 export async function updatePropertyStatus(id: string, status: PropertyStatus): Promise<ApiResponse<Property | null>> {
   try {
-    console.log(`[Server Action] updatePropertyStatus: Updating ${id} to ${status}`);
+    // Validate inputs
+    const idValidation = validatePropertyId(id);
+    if (!idValidation.valid) {
+      logSecurityEvent('invalid_property_id_update', { id, error: idValidation.error }, 'warn');
+      return {
+        data: null,
+        success: false,
+        error: 'Invalid property ID'
+      };
+    }
+
+    const statusValidation = validatePropertyStatus(status);
+    if (!statusValidation.valid) {
+      logSecurityEvent('invalid_status_update', { id, status, error: statusValidation.error }, 'warn');
+      return {
+        data: null,
+        success: false,
+        error: 'Invalid status value'
+      };
+    }
+
+    const sanitizedId = idValidation.sanitized!;
+    const sanitizedStatus = statusValidation.sanitized! as PropertyStatus;
+
+    // Rate limiting check (simulate with a simple identifier)
+    const rateLimit = checkRateLimit(`property_update:${sanitizedId}`, 'update_status', 5, 60000);
+    if (!rateLimit.allowed) {
+      logSecurityEvent('rate_limit_exceeded', { 
+        id: sanitizedId, 
+        action: 'update_status',
+        remaining: rateLimit.remaining 
+      }, 'warn');
+      return {
+        data: null,
+        success: false,
+        error: 'Too many update requests. Please wait before trying again.'
+      };
+    }
+
+    logSecurityEvent('property_status_update_attempt', { 
+      id: sanitizedId, 
+      status: sanitizedStatus,
+      remaining: rateLimit.remaining 
+    }, 'info');
     
     await new Promise(resolve => setTimeout(resolve, 200));
     
-    const propertyIndex = mockProperties.findIndex(p => p.id === id);
+    // Use parameterized lookup (sanitized ID)
+    const propertyIndex = mockProperties.findIndex(p => p.id === sanitizedId);
     
     if (propertyIndex === -1) {
+      logSecurityEvent('property_not_found_update', { id: sanitizedId }, 'info');
       return {
         data: null,
         success: false,
@@ -197,21 +279,29 @@ export async function updatePropertyStatus(id: string, status: PropertyStatus): 
     }
     
     // Update the property status
-    mockProperties[propertyIndex].status = status;
+    mockProperties[propertyIndex].status = sanitizedStatus;
     
     const updatedProperty = {
       ...mockProperties[propertyIndex],
       maintenanceScore: calculateMaintenanceScore(mockProperties[propertyIndex])
     };
     
-    console.log(`[Server Action] updatePropertyStatus: Updated ${updatedProperty.name} to ${status}`);
+    logSecurityEvent('property_status_updated', { 
+      id: sanitizedId, 
+      name: updatedProperty.name,
+      status: sanitizedStatus 
+    }, 'info');
     
     return {
       data: updatedProperty,
       success: true
     };
   } catch (error) {
-    console.error(`[Server Action] updatePropertyStatus error for ${id}:`, error);
+    logSecurityEvent('property_update_error', { 
+      id, 
+      status,
+      error: error instanceof Error ? error.message : 'Unknown error' 
+    }, 'error');
     return {
       data: null,
       success: false,
@@ -221,17 +311,20 @@ export async function updatePropertyStatus(id: string, status: PropertyStatus): 
 }
 
 /**
- * Get portfolio summary statistics
+ * Get portfolio summary statistics with security logging
  */
 export async function getPropertySummary(): Promise<ApiResponse<PropertySummary>> {
   try {
-    console.log('[Server Action] getPropertySummary: Calculating portfolio summary');
+    logSecurityEvent('summary_calculation_attempt', {}, 'info');
     
     await new Promise(resolve => setTimeout(resolve, 100));
     
     const properties = await getProperties();
     
     if (!properties.success) {
+      logSecurityEvent('summary_calculation_failed', { 
+        reason: 'properties_fetch_failed' 
+      }, 'error');
       throw new Error('Failed to fetch properties for summary');
     }
     
@@ -250,14 +343,19 @@ export async function getPropertySummary(): Promise<ApiResponse<PropertySummary>
       ? Math.round((summary.completedTasks / summary.totalTasks) * 100)
       : 0;
     
-    console.log(`[Server Action] getPropertySummary: ${summary.totalProperties} properties, ${summary.taskCompletionRate}% completion rate`);
+    logSecurityEvent('summary_calculated', { 
+      totalProperties: summary.totalProperties,
+      completionRate: summary.taskCompletionRate 
+    }, 'info');
     
     return {
       data: summary,
       success: true
     };
   } catch (error) {
-    console.error('[Server Action] getPropertySummary error:', error);
+    logSecurityEvent('summary_calculation_error', { 
+      error: error instanceof Error ? error.message : 'Unknown error' 
+    }, 'error');
     return {
       data: {
         totalProperties: 0,

@@ -8,6 +8,7 @@ import { ProgressBar } from "@/components/ui/progress";
 import { Calendar, CheckCircle, AlertCircle, Clock, AlertTriangle, Loader2 } from "lucide-react";
 import { Property, PropertyStatus } from "@/types/property";
 import { updatePropertyStatus } from "./actions";
+import { sanitizeText } from "@/lib/security";
 
 interface PropertyCardProps {
   property: Property;
@@ -17,6 +18,41 @@ export function PropertyCard({ property }: PropertyCardProps) {
   const [isPending, startTransition] = useTransition();
   const [currentProperty, setCurrentProperty] = useState(property);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Client-side validation
+  function validateStatusUpdate(newStatus: PropertyStatus): boolean {
+    if (!newStatus || typeof newStatus !== 'string') {
+      setError('Invalid status value');
+      return false;
+    }
+    
+    if (!['complete', 'pending', 'overdue'].includes(newStatus)) {
+      setError('Status must be complete, pending, or overdue');
+      return false;
+    }
+    
+    return true;
+  }
+
+  function validatePropertyId(id: string): boolean {
+    if (!id || typeof id !== 'string') {
+      setError('Invalid property ID');
+      return false;
+    }
+    
+    if (id.length < 3 || id.length > 50) {
+      setError('Property ID must be 3-50 characters');
+      return false;
+    }
+    
+    if (!/^[a-z0-9-]+$/.test(id)) {
+      setError('Property ID contains invalid characters');
+      return false;
+    }
+    
+    return true;
+  }
 
   function getStatusColor(status: PropertyStatus) {
     switch (status) {
@@ -47,6 +83,18 @@ export function PropertyCard({ property }: PropertyCardProps) {
   const handleStatusUpdate = (newStatus: PropertyStatus) => {
     if (isUpdating) return;
     
+    // Clear previous errors
+    setError(null);
+    
+    // Client-side validation
+    if (!validateStatusUpdate(newStatus)) {
+      return;
+    }
+    
+    if (!validatePropertyId(currentProperty.id)) {
+      return;
+    }
+    
     setIsUpdating(true);
     startTransition(async () => {
       try {
@@ -54,10 +102,15 @@ export function PropertyCard({ property }: PropertyCardProps) {
         
         if (response.success && response.data) {
           setCurrentProperty(response.data);
+          setError(null);
         } else {
-          console.error('Failed to update property status:', response.error);
+          const errorMessage = response.error || 'Failed to update property status';
+          setError(errorMessage);
+          console.error('Failed to update property status:', errorMessage);
         }
       } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+        setError(errorMessage);
         console.error('Error updating property status:', error);
       } finally {
         setIsUpdating(false);
@@ -93,9 +146,9 @@ export function PropertyCard({ property }: PropertyCardProps) {
               id={`property-${currentProperty.id}-title`}
               className="text-lg leading-tight text-foreground group-hover:text-primary transition-colors"
             >
-              {currentProperty.name}
+              {sanitizeText(currentProperty.name)}
             </CardTitle>
-            <p className="text-sm text-muted-foreground mt-1 truncate">{currentProperty.address}</p>
+            <p className="text-sm text-muted-foreground mt-1 truncate">{sanitizeText(currentProperty.address)}</p>
             <p className="text-xs text-muted-foreground/70 mt-1">{currentProperty.units} units</p>
           </div>
           <div className="flex flex-col gap-2 shrink-0">
@@ -176,6 +229,17 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
 
+        {/* Error Display */}
+        {error && (
+          <div className="p-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800/30 rounded-md">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" aria-hidden="true" />
+              <p className="text-sm text-red-700 dark:text-red-300 font-medium">Update Failed</p>
+            </div>
+            <p className="text-xs text-red-600 dark:text-red-400 mt-1">{sanitizeText(error)}</p>
+          </div>
+        )}
+
         {/* Issues */}
         {currentProperty.issues.length > 0 && (
           <div>
@@ -189,7 +253,7 @@ export function PropertyCard({ property }: PropertyCardProps) {
                   key={index} 
                   className="text-xs text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/20 px-3 py-2 rounded-md border border-red-200/50 dark:border-red-800/30"
                 >
-                  {issue}
+                  {sanitizeText(issue)}
                 </div>
               ))}
             </div>
@@ -200,11 +264,11 @@ export function PropertyCard({ property }: PropertyCardProps) {
         <div className="pt-2 border-t border-border/50 space-y-1">
           <div className="flex items-center text-xs text-muted-foreground">
             <Calendar className="h-3 w-3 mr-2" aria-hidden="true" />
-            <span>Last: {currentProperty.lastInspection}</span>
+            <span>Last: {sanitizeText(currentProperty.lastInspection)}</span>
           </div>
           <div className="flex items-center text-xs text-muted-foreground">
             <Calendar className="h-3 w-3 mr-2" aria-hidden="true" />
-            <span>Next: {currentProperty.nextInspection}</span>
+            <span>Next: {sanitizeText(currentProperty.nextInspection)}</span>
           </div>
         </div>
       </CardContent>
