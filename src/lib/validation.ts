@@ -8,9 +8,7 @@ export const PropertyIdSchema = z.string()
   .trim();
 
 // Property status validation - strict enum
-export const PropertyStatusSchema = z.enum(['complete', 'pending', 'overdue'], {
-  errorMap: () => ({ message: 'Status must be complete, pending, or overdue' })
-});
+export const PropertyStatusSchema = z.enum(['complete', 'pending', 'overdue']);
 
 // Property name validation - safe text with length limits
 export const PropertyNameSchema = z.string()

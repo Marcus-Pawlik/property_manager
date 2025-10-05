@@ -1,13 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ProgressBar } from "@/components/ui/progress";
-import { Building2, Calendar, CheckCircle, AlertCircle, Clock, ArrowLeft, TrendingUp, Users, AlertTriangle, Loader2 } from "lucide-react";
+import { Building2, CheckCircle, Clock, ArrowLeft, TrendingUp, Users, AlertTriangle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { ErrorBoundary, DefaultErrorFallback } from "@/components/error-boundary";
-import { getProperties, getPropertySummary, updatePropertyStatus } from "./actions";
-import { Property, PropertySummary } from "@/types/property";
+import { getProperties, getPropertySummary } from "./actions";
 
 // Client component for interactive property cards
 import { PropertyCard } from "./property-card";

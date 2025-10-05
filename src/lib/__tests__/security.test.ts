@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { validatePropertyId, validatePropertyStatus, sanitizeText, sanitizeHtml } from '../security';
 import { PropertyIdSchema, PropertyStatusSchema, PropertySchema } from '../validation';
 
@@ -81,11 +81,11 @@ describe('Security Validation', () => {
       expect(sanitizeText('Text\x00with\x1Fcontrol\x7Fchars')).toBe('Textwithcontrolchars');
     });
 
-    it('should handle empty and null inputs', () => {
-      expect(sanitizeText('')).toBe('');
-      expect(sanitizeText(null as any)).toBe('');
-      expect(sanitizeText(undefined as any)).toBe('');
-    });
+            it('should handle empty and null inputs', () => {
+              expect(sanitizeText('')).toBe('');
+              expect(sanitizeText(null as unknown as string)).toBe('');
+              expect(sanitizeText(undefined as unknown as string)).toBe('');
+            });
   });
 
   describe('sanitizeHtml', () => {
@@ -97,7 +97,8 @@ describe('Security Validation', () => {
 
     it('should handle empty inputs', () => {
       expect(sanitizeHtml('')).toBe('');
-      expect(sanitizeHtml(null as any)).toBe('');
+      expect(sanitizeHtml(null as unknown as string)).toBe('');
+      expect(sanitizeHtml(undefined as unknown as string)).toBe('');
     });
   });
 });

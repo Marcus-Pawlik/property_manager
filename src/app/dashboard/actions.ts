@@ -2,21 +2,12 @@
 
 import { Property, PropertySummary, PropertyStatus, ApiResponse } from '@/types/property';
 import { calculatePropertyStatus, calculateMaintenanceScore } from '@/lib/property-helpers';
-import { 
-  UpdatePropertyStatusInputSchema, 
-  GetPropertyByIdInputSchema,
-  PropertySchema,
-  ValidationError 
-} from '@/lib/validation';
-import { 
-  validateInput, 
-  checkRateLimit, 
-  logSecurityEvent, 
-  sanitizeText,
+import {
+  checkRateLimit,
+  logSecurityEvent,
   validatePropertyId,
-  validatePropertyStatus 
+  validatePropertyStatus
 } from '@/lib/security';
-import { NextRequest } from 'next/server';
 
 // Mock data - in a real app, this would come from a database
 // All data is pre-sanitized and validated

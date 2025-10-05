@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { ValidationError, SecurityError } from './validation';
+import { ValidationError } from './validation';
 
 // HTML sanitization - basic implementation
 export function sanitizeHtml(input: string): string {
@@ -82,7 +82,7 @@ export function getClientIP(request: NextRequest): string {
     return realIP;
   }
   
-  return request.ip || 'unknown';
+  return 'unknown';
 }
 
 // Secure error logging
@@ -109,7 +109,7 @@ export function logSecurityEvent(
 
 // Input validation helper
 export function validateInput<T>(
-  schema: any,
+  schema: import('zod').ZodSchema<T>,
   input: unknown,
   context: string
 ): { success: true; data: T } | { success: false; errors: ValidationError[] } {
@@ -120,7 +120,7 @@ export function validateInput<T>(
       return { success: true, data: result.data };
     }
     
-    const errors: ValidationError[] = result.error.errors.map(err => ({
+    const errors: ValidationError[] = result.error.issues.map(err => ({
       field: err.path.join('.'),
       message: err.message,
       code: err.code,
