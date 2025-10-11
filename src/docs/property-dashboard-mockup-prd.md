@@ -3,11 +3,13 @@
 Status: Ready for Implementation
 
 ## Objective
+
 Enable property managers to visualize portfolio-wide maintenance status through an interactive dashboard that demonstrates complete transparency and accountability in property management monitoring.
 
 ## Scope
 
 ### In-Scope
+
 - Dashboard page with 6+ realistic property examples
 - Status indicators (complete/pending/overdue) with color coding
 - Maintenance scores and task completion tracking
@@ -17,6 +19,7 @@ Enable property managers to visualize portfolio-wide maintenance status through 
 - Mock data with realistic property scenarios
 
 ### Out-of-Scope
+
 - Real property data integration or APIs
 - User authentication or role management
 - Live updates or real-time notifications
@@ -35,26 +38,31 @@ Enable property managers to visualize portfolio-wide maintenance status through 
 ## Acceptance Criteria
 
 ### Dashboard Overview
+
 - **Given** I visit `/dashboard`
 - **When** the page loads
 - **Then** I see a grid of 6+ property cards with summary statistics at the top
 
 ### Property Status Indicators
+
 - **Given** I'm viewing the dashboard
 - **When** I look at each property card
 - **Then** I see color-coded status badges (green=complete, yellow=pending, red=overdue) with appropriate icons
 
 ### Mobile Responsiveness
+
 - **Given** I access the dashboard on a mobile device
 - **When** I view the property grid
 - **Then** the layout adapts to show 1 column on mobile, 2 on tablet, 3 on desktop
 
 ### Navigation Integration
+
 - **Given** I'm on the landing page
 - **When** I click "View Dashboard Demo"
 - **Then** I'm taken to the dashboard page
 
 ### Portfolio Summary Statistics
+
 - **Given** I'm viewing the dashboard
 - **When** I look at the top summary cards
 - **Then** I see total properties, total units, completed tasks, and pending issues counts
@@ -62,6 +70,7 @@ Enable property managers to visualize portfolio-wide maintenance status through 
 ## Implementation Plan
 
 ### Stage 1 — UI Design Only
+
 1. ✅ Create dashboard page route at `src/app/dashboard/page.tsx`
 2. ✅ Create PropertyCard component at `src/components/property-card.tsx` with status badge logic
 3. ✅ Implement summary statistics cards (total properties, units, etc.)
@@ -79,6 +88,7 @@ Enable property managers to visualize portfolio-wide maintenance status through 
 15. ✅ Add comprehensive portfolio overview with task completion percentage
 
 ### Stage 2 — Real Functionality
+
 1. ✅ Wire up status calculation logic for property cards
 2. ✅ Implement progress bar components for maintenance scores
 3. ✅ Add hover states and micro-interactions
@@ -91,6 +101,7 @@ Enable property managers to visualize portfolio-wide maintenance status through 
 10. ✅ Test data flow and state management
 
 ### Stage 3 — Test, Debug, and Safety Checks
+
 1. ✅ Verify all user stories and acceptance criteria
 2. ✅ Test responsive design across devices (mobile, tablet, desktop)
 3. ✅ Validate accessibility with screen reader testing
@@ -103,6 +114,7 @@ Enable property managers to visualize portfolio-wide maintenance status through 
 10. ✅ Documentation and deployment verification
 
 ## Success Metrics
+
 - Dashboard loads in <2 seconds on mobile devices
 - All 6+ property cards display without layout shifts
 - Status indicators are colorblind-accessible (test with color contrast tools)

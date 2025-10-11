@@ -15,7 +15,10 @@ interface ErrorBoundaryProps {
   fallback?: React.ComponentType<{ error?: Error; resetError: () => void }>;
 }
 
-export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
@@ -37,7 +40,12 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     if (this.state.hasError) {
       if (this.props.fallback) {
         const FallbackComponent = this.props.fallback;
-        return <FallbackComponent error={this.state.error} resetError={this.resetError} />;
+        return (
+          <FallbackComponent
+            error={this.state.error}
+            resetError={this.resetError}
+          />
+        );
       }
 
       return (
@@ -50,7 +58,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
             <p className="text-sm text-muted-foreground mb-4">
               {this.state.error?.message || 'An unexpected error occurred'}
             </p>
-            <Button 
+            <Button
               onClick={this.resetError}
               variant="outline"
               size="sm"
@@ -69,7 +77,13 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 }
 
 // Default error fallback component
-export function DefaultErrorFallback({ error, resetError }: { error?: Error; resetError: () => void }) {
+export function DefaultErrorFallback({
+  error,
+  resetError,
+}: {
+  error?: Error;
+  resetError: () => void;
+}) {
   return (
     <Card className="border-destructive/20 bg-destructive/5">
       <CardContent className="p-6 text-center">
@@ -78,9 +92,10 @@ export function DefaultErrorFallback({ error, resetError }: { error?: Error; res
           Failed to load property data
         </h3>
         <p className="text-sm text-muted-foreground mb-4">
-          {error?.message || 'Unable to fetch property information. Please try again.'}
+          {error?.message ||
+            'Unable to fetch property information. Please try again.'}
         </p>
-        <Button 
+        <Button
           onClick={resetError}
           variant="outline"
           size="sm"

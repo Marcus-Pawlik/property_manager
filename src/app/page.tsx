@@ -1,16 +1,16 @@
-import { Hero } from "@/components/hero";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Mail, Building2, ArrowRight } from "lucide-react";
+import { Hero } from '@/components/hero';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Mail, Building2, ArrowRight } from 'lucide-react';
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-white relative">
       {/* Architectural grid background for entire page */}
-      <div 
+      <div
         className="absolute inset-0 opacity-30 pointer-events-none"
         style={{
           backgroundImage: `
@@ -18,7 +18,7 @@ export default function Home() {
             linear-gradient(90deg, rgba(0,0,0,0.3) 1px, transparent 1px)
           `,
           backgroundSize: '10mm 10mm',
-          backgroundPosition: '0 0'
+          backgroundPosition: '0 0',
         }}
       />
       {/* Hero Section */}
@@ -27,12 +27,12 @@ export default function Home() {
         subtitle="Coming Soon"
         description="A revolutionary monitoring system that brings managers, service providers, and tenants together around shared, time-stamped task logs for complete transparency and accountability."
         primaryAction={{
-          label: "View Dashboard Demo",
-          href: "/dashboard"
+          label: 'View Dashboard Demo',
+          href: '/dashboard',
         }}
         secondaryAction={{
-          label: "Get Early Access",
-          href: "#signup"
+          label: 'Get Early Access',
+          href: '#signup',
         }}
       />
 
@@ -47,7 +47,7 @@ export default function Home() {
               Property Managers Struggle with Visibility
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card>
               <CardContent className="p-6">
@@ -55,18 +55,23 @@ export default function Home() {
                   The Problem
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Property managers of multi-unit residential buildings struggle to monitor recurring caretaker and gardening work because they lack timely, transparent updates and cannot verify tasks are completed as expected.
+                  Property managers of multi-unit residential buildings struggle
+                  to monitor recurring caretaker and gardening work because they
+                  lack timely, transparent updates and cannot verify tasks are
+                  completed as expected.
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold mb-4 text-primary">
                   Target Audience
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Mid-sized property management firms handling 10–50 residential complexes who need better oversight, cost control, and tenant satisfaction.
+                  Mid-sized property management firms handling 10–50 residential
+                  complexes who need better oversight, cost control, and tenant
+                  satisfaction.
                 </p>
               </CardContent>
             </Card>
@@ -87,7 +92,9 @@ export default function Home() {
               Shared Transparency, Better Results
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              A simple monitoring system that brings managers, service providers, and tenants together around a shared, time-stamped task log.
+              A simple monitoring system that brings managers, service
+              providers, and tenants together around a shared, time-stamped task
+              log.
             </p>
           </div>
 
@@ -123,7 +130,8 @@ export default function Home() {
                 </div>
                 <h3 className="font-semibold mb-2">Deter Fraud</h3>
                 <p className="text-sm text-muted-foreground">
-                  Transparent logging reduces opportunities for fraudulent claims
+                  Transparent logging reduces opportunities for fraudulent
+                  claims
                 </p>
               </CardContent>
             </Card>
@@ -156,7 +164,8 @@ export default function Home() {
               See It In Action
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-              Experience how property managers monitor maintenance across their entire portfolio with complete transparency and real-time updates.
+              Experience how property managers monitor maintenance across their
+              entire portfolio with complete transparency and real-time updates.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild>
@@ -183,16 +192,20 @@ export default function Home() {
         <div className="max-w-2xl mx-auto">
           <Card className="border-2">
             <CardContent className="p-8 text-center">
-              <Badge variant="default" className="mb-4 bg-gradient-to-r from-blue-600 to-purple-600">
+              <Badge
+                variant="default"
+                className="mb-4 bg-gradient-to-r from-blue-600 to-purple-600"
+              >
                 🚀 Early Access
               </Badge>
               <h2 className="text-2xl md:text-3xl font-bold mb-4">
                 Be the First to Know
               </h2>
               <p className="text-muted-foreground mb-8">
-                Get notified when we launch and receive early access to our property management monitoring platform.
+                Get notified when we launch and receive early access to our
+                property management monitoring platform.
               </p>
-              
+
               <form className="space-y-4">
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Input

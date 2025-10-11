@@ -37,13 +37,4 @@ A simple monitoring system that brings managers, service providers, and tenants 
 
 ---
 
-*This concept document outlines the core vision for the Property Management Monitoring System.*
-
-
-
-
-
-
-
-
-
+_This concept document outlines the core vision for the Property Management Monitoring System._

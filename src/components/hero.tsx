@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Mail, ArrowRight } from "lucide-react";
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Mail, ArrowRight } from 'lucide-react';
 
 interface HeroProps {
   title?: string;
@@ -20,22 +20,22 @@ interface HeroProps {
 }
 
 export function Hero({
-  title = "Property Management Made Simple",
-  subtitle = "Coming Soon",
-  description = "A transparent monitoring system for property managers, service providers, and tenants. Track work, verify tasks, and build trust through shared visibility.",
+  title = 'Property Management Made Simple',
+  subtitle = 'Coming Soon',
+  description = 'A transparent monitoring system for property managers, service providers, and tenants. Track work, verify tasks, and build trust through shared visibility.',
   primaryAction = {
-    label: "Get Notified",
-    href: "#notify"
+    label: 'Get Notified',
+    href: '#notify',
   },
   secondaryAction = {
-    label: "Learn More",
-    href: "#learn"
-  }
+    label: 'Learn More',
+    href: '#learn',
+  },
 }: HeroProps) {
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-white">
       {/* Architectural grid background */}
-      <div 
+      <div
         className="absolute inset-0 opacity-30"
         style={{
           backgroundImage: `
@@ -43,15 +43,15 @@ export function Hero({
             linear-gradient(90deg, rgba(0,0,0,0.3) 1px, transparent 1px)
           `,
           backgroundSize: '10mm 10mm',
-          backgroundPosition: '0 0'
+          backgroundPosition: '0 0',
         }}
       />
-      
+
       {/* Content exclusion zones */}
       <div className="absolute inset-0">
         {/* Hero content exclusion zone */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-96 bg-white" />
-        
+
         {/* Additional exclusion zones for better readability */}
         <div className="absolute top-0 left-0 w-full h-32 bg-white" />
         <div className="absolute bottom-0 left-0 w-full h-32 bg-white" />
@@ -95,8 +95,8 @@ export function Hero({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="w-full sm:w-auto"
             onClick={() => {
               const element = document.getElementById('signup');
@@ -106,9 +106,9 @@ export function Hero({
             <Mail className="size-4" />
             {primaryAction.label}
           </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
+          <Button
+            variant="outline"
+            size="lg"
             className="w-full sm:w-auto"
             onClick={() => {
               const element = document.getElementById('solution');

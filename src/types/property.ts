@@ -1,22 +1,21 @@
 export type PropertyStatus = 'complete' | 'pending' | 'overdue';
 
-export interface PropertyTask {
-  completed: number;
-  pending: number;
-  overdue: number;
-}
-
 export interface Property {
   id: string;
   name: string;
   address: string;
-  units: number;
   status: PropertyStatus;
-  lastInspection: string;
-  nextInspection: string;
-  maintenanceScore: number;
-  tasks: PropertyTask;
-  issues: string[];
+  units: number;
+  tasks: {
+    completed: number;
+    pending: number;
+    overdue: number;
+  };
+  issues?: string[];
+  maintenanceScore?: number;
+  lastInspection?: string;
+  nextInspection?: string;
+  notes?: string;
 }
 
 export interface PropertySummary {
@@ -33,5 +32,6 @@ export interface PropertySummary {
 export interface ApiResponse<T> {
   data: T;
   success: boolean;
+  message?: string;
   error?: string;
 }

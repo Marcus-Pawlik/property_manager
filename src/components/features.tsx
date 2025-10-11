@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { motion } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 interface FeatureCardProps {
   icon?: React.ReactNode;
@@ -11,7 +11,12 @@ interface FeatureCardProps {
   delay?: number;
 }
 
-export function FeatureCard({ icon, title, description, delay = 0 }: FeatureCardProps) {
+export function FeatureCard({
+  icon,
+  title,
+  description,
+  delay = 0,
+}: FeatureCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -22,9 +27,7 @@ export function FeatureCard({ icon, title, description, delay = 0 }: FeatureCard
         <CardContent className="p-6 text-center">
           {icon && (
             <div className="mb-4 flex justify-center">
-              <div className="p-3 rounded-full bg-primary/10">
-                {icon}
-              </div>
+              <div className="p-3 rounded-full bg-primary/10">{icon}</div>
             </div>
           )}
           <h3 className="text-xl font-semibold mb-2">{title}</h3>
@@ -46,26 +49,30 @@ interface FeaturesSectionProps {
 }
 
 export function FeaturesSection({
-  title = "Key Features",
-  subtitle = "Everything you need for transparent property management",
+  title = 'Key Features',
+  subtitle = 'Everything you need for transparent property management',
   features = [
     {
-      title: "Real-time Monitoring",
-      description: "Track caretaker and gardening work with time-stamped logs for complete transparency."
+      title: 'Real-time Monitoring',
+      description:
+        'Track caretaker and gardening work with time-stamped logs for complete transparency.',
     },
     {
-      title: "Multi-stakeholder Access",
-      description: "Managers, service providers, and tenants all have visibility into work progress."
+      title: 'Multi-stakeholder Access',
+      description:
+        'Managers, service providers, and tenants all have visibility into work progress.',
     },
     {
-      title: "Cost Control",
-      description: "Monitor expenses and verify work completion to prevent fraud and optimize budgets."
+      title: 'Cost Control',
+      description:
+        'Monitor expenses and verify work completion to prevent fraud and optimize budgets.',
     },
     {
-      title: "Documentation",
-      description: "Generate reports and maintain records to justify decisions to property owners."
-    }
-  ]
+      title: 'Documentation',
+      description:
+        'Generate reports and maintain records to justify decisions to property owners.',
+    },
+  ],
 }: FeaturesSectionProps) {
   return (
     <section className="py-20 px-4">
@@ -100,11 +107,3 @@ export function FeaturesSection({
     </section>
   );
 }
-
-
-
-
-
-
-
-

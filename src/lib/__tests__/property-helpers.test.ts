@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { calculatePropertyStatus, calculateMaintenanceScore } from "../property-helpers";
+import {
+  calculatePropertyStatus,
+  calculateMaintenanceScore,
+} from '../property-helpers';
 import { Property } from '@/types/property';
 
 describe('Property Helper Functions', () => {
@@ -15,9 +18,9 @@ describe('Property Helper Functions', () => {
         nextInspection: '2024-02-01',
         maintenanceScore: 95,
         tasks: { completed: 5, pending: 2, overdue: 1 },
-        issues: []
+        issues: [],
       };
-      
+
       expect(calculatePropertyStatus(property)).toBe('overdue');
     });
 
@@ -32,9 +35,9 @@ describe('Property Helper Functions', () => {
         nextInspection: '2024-02-01',
         maintenanceScore: 65,
         tasks: { completed: 3, pending: 2, overdue: 0 },
-        issues: []
+        issues: [],
       };
-      
+
       expect(calculatePropertyStatus(property)).toBe('pending');
     });
 
@@ -49,9 +52,9 @@ describe('Property Helper Functions', () => {
         nextInspection: '2024-02-01',
         maintenanceScore: 85,
         tasks: { completed: 5, pending: 5, overdue: 0 },
-        issues: []
+        issues: [],
       };
-      
+
       expect(calculatePropertyStatus(property)).toBe('pending');
     });
 
@@ -66,9 +69,9 @@ describe('Property Helper Functions', () => {
         nextInspection: '2024-02-01',
         maintenanceScore: 85,
         tasks: { completed: 8, pending: 2, overdue: 0 },
-        issues: []
+        issues: [],
       };
-      
+
       expect(calculatePropertyStatus(property)).toBe('complete');
     });
   });
@@ -85,9 +88,9 @@ describe('Property Helper Functions', () => {
         nextInspection: '2024-02-01',
         maintenanceScore: 0,
         tasks: { completed: 0, pending: 0, overdue: 0 },
-        issues: []
+        issues: [],
       };
-      
+
       expect(calculateMaintenanceScore(property)).toBe(100);
     });
 
@@ -102,9 +105,9 @@ describe('Property Helper Functions', () => {
         nextInspection: '2024-02-01',
         maintenanceScore: 0,
         tasks: { completed: 8, pending: 2, overdue: 0 },
-        issues: []
+        issues: [],
       };
-      
+
       // 8 completed out of 10 total = 80%
       expect(calculateMaintenanceScore(property)).toBe(80);
     });
@@ -120,9 +123,9 @@ describe('Property Helper Functions', () => {
         nextInspection: '2024-02-01',
         maintenanceScore: 0,
         tasks: { completed: 8, pending: 1, overdue: 1 },
-        issues: []
+        issues: [],
       };
-      
+
       // 8 completed out of 10 total = 80%, minus 10 for overdue task = 70%
       expect(calculateMaintenanceScore(property)).toBe(70);
     });
@@ -138,9 +141,9 @@ describe('Property Helper Functions', () => {
         nextInspection: '2024-02-01',
         maintenanceScore: 0,
         tasks: { completed: 8, pending: 2, overdue: 0 },
-        issues: ['Issue 1', 'Issue 2']
+        issues: ['Issue 1', 'Issue 2'],
       };
-      
+
       // 8 completed out of 10 total = 80%, minus 10 for 2 issues = 70%
       expect(calculateMaintenanceScore(property)).toBe(70);
     });
@@ -156,9 +159,9 @@ describe('Property Helper Functions', () => {
         nextInspection: '2024-02-01',
         maintenanceScore: 0,
         tasks: { completed: 1, pending: 1, overdue: 5 },
-        issues: ['Issue 1', 'Issue 2', 'Issue 3']
+        issues: ['Issue 1', 'Issue 2', 'Issue 3'],
       };
-      
+
       // Should not be negative
       expect(calculateMaintenanceScore(property)).toBe(0);
     });
